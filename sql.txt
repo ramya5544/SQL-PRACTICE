@@ -1,0 +1,180 @@
+mysql> CREATE TABLE employees(emp_id int primary key,
+    -> first_name varchar(25),
+    -> last_name varchar(25),
+    -> designation varchar(20));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO employees(emp_id,first_name,last_name,designation)VALUES(100,'saskshi','vijay','fsd');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO employees(emp_id,first_name,last_name,designation)VALUES(100,'saskshi','vijay','fsd'),(101,'ram','ris','phy'),(103,'shurthi','sika','mern');
+ERROR 1062 (23000): Duplicate entry '100' for key 'employees.PRIMARY'
+mysql> INSERT INTO employees(emp_id,first_name,last_name,designation)VALUES(107,'saskshi','vijay','fsd'),(101,'ram','ris','phy'),(103,'shurthi','sika','mern');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM employees;
++--------+------------+-----------+-------------+
+| emp_id | first_name | last_name | designation |
++--------+------------+-----------+-------------+
+|    100 | saskshi    | vijay     | fsd         |
+|    101 | ram        | ris       | phy         |
+|    103 | shurthi    | sika      | mern        |
+|    107 | saskshi    | vijay     | fsd         |
++--------+------------+-----------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE employees SET designation='phy' WHERE emp_id=107;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM employees;
++--------+------------+-----------+-------------+
+| emp_id | first_name | last_name | designation |
++--------+------------+-----------+-------------+
+|    100 | saskshi    | vijay     | fsd         |
+|    101 | ram        | ris       | phy         |
+|    103 | shurthi    | sika      | mern        |
+|    107 | saskshi    | vijay     | phy         |
++--------+------------+-----------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> DELETE FROM employees WHERE emp_id=107;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM employees;
++--------+------------+-----------+-------------+
+| emp_id | first_name | last_name | designation |
++--------+------------+-----------+-------------+
+|    100 | saskshi    | vijay     | fsd         |
+|    101 | ram        | ris       | phy         |
+|    103 | shurthi    | sika      | mern        |
++--------+------------+-----------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employees WHERE last_name='ris';
++--------+------------+-----------+-------------+
+| emp_id | first_name | last_name | designation |
++--------+------------+-----------+-------------+
+|    101 | ram        | ris       | phy         |
++--------+------------+-----------+-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT first_name,designation from employees WHERE  id=101;
+ERROR 1054 (42S22): Unknown column 'id' in 'where clause'
+mysql> SELECT first_name,designation from employees WHERE  emp_id=101;
++------------+-------------+
+| first_name | designation |
++------------+-------------+
+| ram        | phy         |
++------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT DISTINCT designation FROM employees;
++-------------+
+| designation |
++-------------+
+| fsd         |
+| phy         |
+| mern        |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT designation,count(*) from employees GROUP BY designation;
++-------------+----------+
+| designation | count(*) |
++-------------+----------+
+| fsd         |        1 |
+| phy         |        1 |
+| mern        |        1 |
++-------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employees ORDER BY emp_id;
++--------+------------+-----------+-------------+
+| emp_id | first_name | last_name | designation |
++--------+------------+-----------+-------------+
+|    100 | saskshi    | vijay     | fsd         |
+|    101 | ram        | ris       | phy         |
+|    103 | shurthi    | sika      | mern        |
++--------+------------+-----------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employees ORDER BY emp_id desc;
++--------+------------+-----------+-------------+
+| emp_id | first_name | last_name | designation |
++--------+------------+-----------+-------------+
+|    103 | shurthi    | sika      | mern        |
+|    101 | ram        | ris       | phy         |
+|    100 | saskshi    | vijay     | fsd         |
++--------+------------+-----------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employees ORDER BY emp_id;
++--------+------------+-----------+-------------+
+| emp_id | first_name | last_name | designation |
++--------+------------+-----------+-------------+
+|    100 | saskshi    | vijay     | fsd         |
+|    101 | ram        | ris       | phy         |
+|    103 | shurthi    | sika      | mern        |
++--------+------------+-----------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employees ORDER BY emp_id asc;
++--------+------------+-----------+-------------+
+| emp_id | first_name | last_name | designation |
++--------+------------+-----------+-------------+
+|    100 | saskshi    | vijay     | fsd         |
+|    101 | ram        | ris       | phy         |
+|    103 | shurthi    | sika      | mern        |
++--------+------------+-----------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employees ORDER BY last_name desc;
++--------+------------+-----------+-------------+
+| emp_id | first_name | last_name | designation |
++--------+------------+-----------+-------------+
+|    100 | saskshi    | vijay     | fsd         |
+|    103 | shurthi    | sika      | mern        |
+|    101 | ram        | ris       | phy         |
++--------+------------+-----------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employees limit 2;
++--------+------------+-----------+-------------+
+| emp_id | first_name | last_name | designation |
++--------+------------+-----------+-------------+
+|    100 | saskshi    | vijay     | fsd         |
+|    101 | ram        | ris       | phy         |
++--------+------------+-----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employees limit 2 OFFSET 1;
++--------+------------+-----------+-------------+
+| emp_id | first_name | last_name | designation |
++--------+------------+-----------+-------------+
+|    101 | ram        | ris       | phy         |
+|    103 | shurthi    | sika      | mern        |
++--------+------------+-----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employees limit 2 OFFSET 2;
++--------+------------+-----------+-------------+
+| emp_id | first_name | last_name | designation |
++--------+------------+-----------+-------------+
+|    103 | shurthi    | sika      | mern        |
++--------+------------+-----------+-------------+
+1 row in set (0.00 sec)
+
+mysql> ALTER TABLE employees ADD email varchar(30);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM employees;
++--------+------------+-----------+-------------+-------+
+| emp_id | first_name | last_name | designation | email |
++--------+------------+-----------+-------------+-------+
+|    100 | saskshi    | vijay     | fsd         | NULL  |
+|    101 | ram        | ris       | phy         | NULL  |
+|    103 | shurthi    | sika      | mern        | NULL  |
++--------+------------+-----------+-------------+------
